@@ -1,8 +1,36 @@
+import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useMutation, gql } from '@apollo/client'
+import { Toast } from '../components/Toast'
+
+const NEW_USER = gql`
+  mutation newUser($user: UserInput!) {
+    register(user: $user) {
+      status
+      message
+      user {
+        id
+        name
+        lastname
+        email
+        password
+        birthday
+        phone
+        registerDate
+        role
+      }
+    }
+  }
+`;
 
 const Registro = () => {
+
+  // Mutation to create new users
+  const [ newUser ] = useMutation(NEW_USER);
+
+  const router = useRouter()
 
   // Form validation
   const formik = useFormik({
@@ -27,15 +55,46 @@ const Registro = () => {
       phone: Yup.string()
                 .required('Numero obligatorio'),
     }),
-    onSubmit: values => {
-      console.log('Enviando...')
-      console.log(values)
+    onSubmit: async values => {
+      const {
+        name,
+        lastname,
+        email,
+        password,
+        phone
+      } = values;
+
+      try {
+        const { data } = await newUser({
+          variables: {
+            user: {
+              name,
+              lastname,
+              email,
+              password,
+              birthday: '10',
+              phone
+            }
+          }
+        });
+        
+        const { message, status } = data.register
+        
+        if(status === false) {
+          return Toast(message, 'error')
+        }
+        Toast(`El usuario ${name} ${lastname} fue creado correctamente.`, 'success')
+        router.push('/login')
+      } catch (error) {
+        Toast(error, 'info')
+      }
     }
-  })
+  });
 
   return (
     <>
       <Layout>
+
         <h1 className='text-center text-2xl text-white font-light'>
           Registro
         </h1>
