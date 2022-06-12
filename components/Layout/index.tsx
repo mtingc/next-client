@@ -1,15 +1,19 @@
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import Sidebar from '../components/Sidebar'
+import Sidebar from '@components/Sidebar'
 
-const Layout = ({ children, page }) => {
+type LayoutProps = {
+  children?: React.ReactNode
+}
+
+const Layout = ({ children }: LayoutProps) => {
 
   const router = useRouter();
 
   return (
     <>
       <Head>
-        <title>Lagalm - {page}</title>
+        <title>Lagalm</title>
         <meta
           name="description"
           content="Lagalm, soluciones integrales en inyección de plástico."
@@ -34,7 +38,6 @@ const Layout = ({ children, page }) => {
           </div>
         </div>
       )}
-
     </>
   );
 };

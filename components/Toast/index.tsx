@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2'
+import { TYPE_ICON} from './TYPE_ICON';
 
-export const Toast = (text, icon) => {
+export const Toast = (text: string, icon: TYPE_ICON) => {
   Swal.fire({
     text,
     icon,
