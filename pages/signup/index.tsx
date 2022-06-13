@@ -4,7 +4,6 @@ import { gql, useMutation } from '@apollo/client'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-import Layout from '@components/Layout'
 import { Toast } from '@components/Toast'
 import { TYPE_ICON } from '@components/Toast/TYPE_ICON'
 
@@ -95,7 +94,7 @@ const Registro = () => {
   });
 
   return (
-    <Layout>
+    <>
 
       <h1 className='text-center text-2xl text-white font-light'>
         Registro
@@ -212,7 +211,7 @@ const Registro = () => {
         </div>
 
       </div>
-    </Layout>
+    </>
   );
 };
 

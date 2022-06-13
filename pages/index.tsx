@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '@components/Layout'
 
 const Home = () => {
 
@@ -15,12 +14,19 @@ const Home = () => {
   }, [])
 
   return (
-    <Layout>
+    <>
       <h1 className='text-2xl text-gray-800 font-light'>Usuarios</h1>
       {userList.map((user) => (
-        <div key={user.id}> {user.name} {user.lastname} </div>
+        <div key={user.id}>
+          <p>{user.job.employeeNumber}</p>
+          <p>{user.name} {user.lastname}</p>
+          <p>{user.email}</p>
+          <p>{user.birthday}</p>
+          <p>{user.job.title}</p>
+          <br/>
+        </div>
       ))}
-    </Layout>
+    </>
   );
 }
 
