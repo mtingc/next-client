@@ -1,4 +1,4 @@
-const data: Record<TProductId, TProduct> = {
+const data: Record<TUserId, TUser> = {
     '2zd33b8c': {
         id: '2zd33b8c',
         name: 'Martin',
@@ -8,13 +8,14 @@ const data: Record<TProductId, TProduct> = {
         birthday: '18/02/2001',
         curp: 'GACM010218HMCRLRA3',
         phone: '5523489060',
-        image: 'https://images.sk-static.com/images/media/profile_images/artists/4660573/huge_avatar',
+        image: 'avatar/avatar1.jpg',
         job: {
-            employeeNumber: 648,
+            employeeNumber: 649,
             title: 'Dev',
             description: 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.',
             position: 'Jr',
-        }
+        },
+        active: true
     },
     '6trfgkkj': {
         id: '6trfgkkj',
@@ -25,13 +26,14 @@ const data: Record<TProductId, TProduct> = {
         birthday: '01/01/1095',
         curp: 'GACM010218HMCRLRA3',
         phone: '5523489060',
-        image: 'https://images.sk-static.com/images/media/profile_images/artists/3821916/huge_avatar',
+        image: 'avatar/avatar2.jpg',
         job: {
-            employeeNumber: 648,
+            employeeNumber: 548,
             title: 'Dev',
             description: 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.',
             position: 'Jr',
-        }
+        },
+        active: false
     }
 }
 

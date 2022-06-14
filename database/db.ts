@@ -6,13 +6,13 @@ import allData from './data'
 class Database {
     constructor() { }
 
-    async getAll(): Promise<TProduct[]> {
+    async getAll(): Promise<TUser[]> {
         const asArray = Object.values(allData)
         await randomDelay()
         return asArray
     }
 
-    async getById(id: string): Promise<TProduct | null> {
+    async getById(id: string): Promise<TUser | null> {
         if (!Object.prototype.hasOwnProperty.call(allData, id)) {
             return null
         }

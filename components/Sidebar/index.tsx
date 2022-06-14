@@ -1,36 +1,67 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const Sidebar = () => {
+import { HomeIcon, CalendarIcon, UsersIcon, CogIcon, LogoutIcon } from '@heroicons/react/solid'
+
+const Sidebar = ({className=''}) => {
 
   const router = useRouter();
 
   return (
-    <aside className='bg-sky-900 sm:w-1/3 xl:w-1/5 sm:min-h-screen p-5'>
-      <div>
-        <p className='text-white text-3xl font-black'>
-          ERP Lagalm
-        </p>
-      </div>
-      <nav className='mt-5 list-none'>
+    <aside className={`${className} p-5 bg-sky-900`}>
+      <ul className='mt-5 list-none'>
 
-        <li className={router.pathname === '/' ? 'bg-blue-800 p-2' : 'p-2'}>
+        <h6 className='text-gray-200 font-bold mt-8 mb-2'>
+          Acciones
+        </h6>
+        <li className={router.pathname === '/' ? 'bg-blue-800 p-2 rounded-md' : 'p-2'}>
           <Link href='/'>
-            <a className='text-white block'>
+            <a className='flex text-white p-4'>
+              <HomeIcon className='mr-4 h-6'/>
+              Inicio
+            </a>
+          </Link>
+        </li>
+
+        <li className={router.pathname === '/permisos' ? 'bg-blue-800 p-2 rounded-md' : 'p-2'}>
+          <Link href='/permisos'>
+            <a className='flex text-white p-4'>
+              <CalendarIcon className='mr-4 h-6'/>
+              Permisos
+            </a>
+          </Link>
+        </li>
+
+        <li className={router.pathname === '/usuario' ? 'bg-blue-800 p-2 rounded-md' : 'p-2'}>
+          <Link href='/usuario'>
+            <a className='flex text-white p-4'>
+              <UsersIcon className='mr-4 h-6'/>
               Usuarios
             </a>
           </Link>
         </li>
 
-        <li className={router.pathname === '/permisos' ? 'bg-blue-800 p-2' : 'p-2'}>
-          <Link href='/permisos'>
-            <a className='text-white block'>
-              Permisos
+        <h6 className='text-gray-200 font-bold mt-8 mb-2'>
+          Configuración
+        </h6>
+        <li className={router.pathname === '/perfil' ? 'bg-blue-800 p-2 rounded-md' : 'p-2'}>
+          <Link href='/perfil'>
+            <a className='flex text-white p-4'>
+              <CogIcon className='mr-4 h-6'/>
+              Perfil
             </a>
           </Link>
         </li>
-        
-      </nav>
+
+      </ul>
+
+      <Link href='/sesion'>
+        <a className='flex absolute inset-x-0 bottom-0 mx-4 mb-4 p-4 text-white bg-red-500 rounded-md'>
+          <LogoutIcon className='mr-4 h-6'/>
+          Cerrar Sesión
+        </a>
+      </Link>
+
     </aside>
   );
 };

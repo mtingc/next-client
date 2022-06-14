@@ -1,14 +1,12 @@
-import { IncomingMessage, ServerResponse } from 'http'
+import { NextApiRequest, NextApiResponse } from 'next'
 import DB from 'database/db'
 
-const users = async (request: IncomingMessage, response: ServerResponse) => {
+const users = async (request: NextApiRequest, response: NextApiResponse) => {
     const db = new DB()
     const allEntries = await db.getAll()
     const lenght = allEntries.length
 
-    response.statusCode = 200 //ok
-    response.setHeader('Content-Type', 'application/json')
-    response.end(JSON.stringify({ lenght, data: allEntries }))
+    response.status(200).json({ lenght, data: allEntries })
 }
 
 export default users

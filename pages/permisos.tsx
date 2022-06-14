@@ -1,7 +1,9 @@
 const Permisos = () => {
   return (
     <>
-      <h1 className='text-2xl text-gray-800 font-light'>Permisos</h1>
+      <h1 className='text-5xl text-gray-800 font-bold'>
+        Permisos
+      </h1>
     </>
   );
 }

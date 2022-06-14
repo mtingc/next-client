@@ -12,6 +12,7 @@ type TUser = {
   phone: string
   image: Url
   job: TJob
+  active: boolean
 }
 
 type TJob = {
