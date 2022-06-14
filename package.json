@@ -6,12 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write .",
+    "test-all": "npm run check-format && npm run check-lint && npm run check-types && npm run build"
   },
   "dependencies": {
     "@apollo/client": "^3.6.2",
     "@heroicons/react": "^1.0.6",
     "apollo-link-context": "^1.0.20",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
     "formik": "^2.2.9",
     "graphql": "^16.4.0",
     "next": "12.1.6",
@@ -23,10 +31,17 @@
   "devDependencies": {
     "@types/node": "^17.0.42",
     "@types/react": "^18.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
     "autoprefixer": "^10.4.7",
-    "eslint": "8.14.0",
-    "eslint-config-next": "12.1.6",
+    "eslint": "^8.17.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-next": "^12.1.6",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.30.0",
+    "husky": "^8.0.1",
     "postcss": "^8.4.13",
+    "prettier": "^2.7.0",
     "tailwindcss": "^3.0.24",
     "typescript": "^4.7.3"
   }
