@@ -1,0 +1,35 @@
+query users {
+  users {
+    status
+    message
+    users {
+      id
+      name
+      lastname
+      email
+      password
+      birthday
+      phone
+      registerDate
+      role
+      lastSession
+    }
+  }
+}
+
+query permissions {
+  permissions {
+    status
+    message
+    permissions {
+      id
+      type
+      reason
+      user
+      date
+      from
+      to
+      authorization
+    }
+  }
+}
