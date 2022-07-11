@@ -1,12 +1,11 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  createHttpLink,
+  InMemoryCache,
+} from '@apollo/client';
 import { setContext } from 'apollo-link-context';
-
-/* const httpLink = createHttpLink({
-  uri:
-    `${process.env.NEXT_PUBLIC_URL_API}/graphql` ||
-    'http://localhost:2002/graphql',
-  fetch,
-}); */
+import { onError } from '@apollo/client/link/error';
 
 /* const authLink = setContext((_, { headers }) => {
   // Read storag
@@ -20,13 +19,30 @@ import { setContext } from 'apollo-link-context';
   };
 }); */
 
-const client = new ApolloClient({
-  connectToDevTools: true,
-  cache: new InMemoryCache(),
+const httpLink = createHttpLink({
   uri:
     `${process.env.NEXT_PUBLIC_URL_API}/graphql` ||
     'http://localhost:2002/graphql',
-  // link: authLink.concat(httpLink),
+  fetch,
+});
+
+// Log any GraphQL errors or network error that occurred
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    );
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
+
+const link = ApolloLink.from([errorLink, httpLink]);
+
+const client = new ApolloClient({
+  connectToDevTools: true,
+  cache: new InMemoryCache(),
+  link,
 });
 
 export default client;

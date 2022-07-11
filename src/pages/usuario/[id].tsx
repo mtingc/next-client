@@ -1,30 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 import DetailUser from '@components/DetailUser';
 
 const Usuario = () => {
-  const [user, setUser] = useState<TUser>();
-  const urlImage = user?.image;
-  const {
-    query: { id },
-  } = useRouter();
-
-  useEffect(() => {
-    window
-      .fetch(`/api/user/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
-      });
-  }, []);
-
   return (
     <div className="container bg-white rounded-md shadow p-5">
-      <div className="flex justify-center mb-5">
+      {/* <div className="flex justify-center mb-5">
         <Image
-          src={`${urlImage}`}
+          src={`https://i.picsum.photos/id/111/200/300.jpg?hmac=bXXQTtXTex0m2Ogp23o7VFcNHAllTfE-8eSPYK2GeGM`}
           className="rounded-md"
           height={200}
           width={200}
@@ -32,7 +15,7 @@ const Usuario = () => {
       </div>
       <div className="grid grid-cols-3 gap-6">
         <DetailUser title="No. Empleado">
-          <p> {user?.job.employeeNumber} </p>
+          <p> {user?.name} </p>
         </DetailUser>
 
         <DetailUser title="Nombre">
@@ -57,23 +40,23 @@ const Usuario = () => {
         </DetailUser>
 
         <DetailUser title="CURP">
-          <p> {user?.curp} </p>
+          <p> {user?.phone} </p>
         </DetailUser>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
         <DetailUser title="Puesto">
-          <p> {user?.job.title} </p>
+          <p> {user?.birthday} </p>
         </DetailUser>
 
         <DetailUser title="Cargo">
-          <p> {user?.job.position} </p>
+          <p> {user?.email} </p>
         </DetailUser>
       </div>
 
       <DetailUser title="Descripción">
-        <p> {user?.job.description} </p>
-      </DetailUser>
+        <p> {user?.lastSession} </p>
+      </DetailUser> */}
     </div>
   );
 };

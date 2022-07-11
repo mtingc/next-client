@@ -28,12 +28,5 @@ npm run check-lint ||
 # If everything passes try run a build
 echo 'Alright... code looks good to me... trying to build now.'
 
-npm run build ||
-{
-    echo 'Your build failed.
-            View the errors above to see why.'
-    false;
-}
-
 # If it builds we can commit
 echo 'I am committing this now.'

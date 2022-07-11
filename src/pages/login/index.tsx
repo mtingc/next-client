@@ -1,131 +1,41 @@
-import { useRouter } from 'next/router';
-import { gql, useMutation } from '@apollo/client';
+import Image from 'next/image';
+import LoginForm from '@components/Form/Login';
 
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-
-import { toast } from '@components/Toast';
-import { TYPE_ICON } from '@components/Toast/TYPE_ICON';
-
-const AUTH_USER = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      status
-      message
-      token
-    }
-  }
-`;
+import Logo from '../../assets/img/logo.png';
 
 const Login = () => {
-  const [login] = useMutation(AUTH_USER);
-  const router = useRouter();
-
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email('El correo no es valido')
-        .required('El correo es obligatorio.'),
-      password: Yup.string().required('La contraseña es obligatoria.'),
-    }),
-    onSubmit: async (values) => {
-      const { email, password } = values;
-      const { data } = await login({
-        variables: {
-          email,
-          password,
-        },
-      });
-      const { message, status, token } = data.login;
-      if (!status) {
-        return toast(message, TYPE_ICON.ERROR);
-      }
-      if (status) {
-        localStorage.setItem('token', token);
-        router.push('/');
-        return toast(`Bienvenido ${email}`, TYPE_ICON.SUCCESS);
-      }
-    },
-  });
-
   return (
-    <>
-      <h1 className="text-center text-2xl text-white font-light">Login</h1>
-      <div className="flex justify-center mt-5">
-        <div className="w-full max-w-sm">
-          <form
-            className="bg-white rounded shadow-md px-8 pt-6 pb-8 mb-4"
-            onSubmit={formik.handleSubmit}
-          >
-            <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="email"
-              >
-                Correo
-              </label>
-              <input
-                className={
-                  'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ' +
-                  (formik.touched.email && formik.errors.email
-                    ? 'border-red-500'
-                    : '')
-                }
-                id="email"
-                type="email"
-                placeholder="Correo del usuario"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.email && formik.errors.email ? (
-                <p className="text-red-500 text-xs italic">
-                  {formik.errors.email}
-                </p>
-              ) : null}
-            </div>
+    <div className="bg-login-color">
+      <div className="flex justify-center h-screen">
+        <div className="hidden bg-cover bg-center lg:block lg:w-2/3 bg-login">
+          <div className="flex items-center h-full px-20 backdrop-blur-sm bg-black/50">
+            <div>
+              <h2 className="text-4xl font-bold text-white">Lorem, ipsum.</h2>
 
-            <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="password"
-              >
-                Contraseña
-              </label>
-              <input
-                className={
-                  'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ' +
-                  (formik.touched.password && formik.errors.password
-                    ? 'border-red-500'
-                    : '')
-                }
-                id="password"
-                type="password"
-                placeholder="Contraseña del usuario"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.password && formik.errors.password ? (
-                <p className="text-red-500 text-xs italic">
-                  {formik.errors.password}
-                </p>
-              ) : null}
+              <p className="max-w-xl mt-8 text-slate-300">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
+                autem ipsa, nulla laboriosam dolores, repellendus perferendis
+                libero suscipit nam temporibus molestiae
+              </p>
             </div>
+          </div>
+        </div>
+        <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
+          <div className="flex-1">
+            <div className="text-center">
+              <Image height={150} width={150} src={Logo} />
 
-            <input
-              type="submit"
-              className="bg-gray-800 w-full mt-5 p-2 text-white uppercase hover:bg-gray-900"
-              value="Ingresar"
-            />
-          </form>
+              <p className="mt-3 text-gray-300">
+                Inicia sesión para acceder a tu cuenta
+              </p>
+            </div>
+            <div className="mt-8">
+              <LoginForm />
+            </div>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

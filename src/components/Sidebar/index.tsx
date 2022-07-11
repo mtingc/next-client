@@ -1,85 +1,97 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
+import Logo from '@assets/img/logo.svg';
 
 import {
   HomeIcon,
-  CalendarIcon,
-  UsersIcon,
+  OfficeBuildingIcon,
+  ArchiveIcon,
   CogIcon,
-  LogoutIcon,
 } from '@heroicons/react/solid';
+import ToolTip from './ToolTip';
 
-const Sidebar = ({ className }: { className: string }) => {
+const Sidebar = () => {
   const router = useRouter();
 
   return (
-    <aside className={`${className} p-5 bg-sky-900`}>
-      <ul className="mt-5 list-none">
-        <h6 className="text-gray-200 font-bold mt-8 mb-2">Acciones</h6>
-        <li
-          className={
-            router.pathname === '/' ? 'bg-blue-800 p-2 rounded-md' : 'p-2'
-          }
-        >
-          <Link href="/">
-            <a className="flex text-white p-4">
-              <HomeIcon className="mr-4 h-6" />
-              Inicio
-            </a>
-          </Link>
-        </li>
-
-        <li
-          className={
-            router.pathname === '/permisos'
-              ? 'bg-blue-800 p-2 rounded-md'
-              : 'p-2'
-          }
-        >
-          <Link href="/permisos">
-            <a className="flex text-white p-4">
-              <CalendarIcon className="mr-4 h-6" />
-              Permisos
-            </a>
-          </Link>
-        </li>
-
-        <li
-          className={
-            router.pathname === '/usuario'
-              ? 'bg-blue-800 p-2 rounded-md'
-              : 'p-2'
-          }
-        >
-          <Link href="/usuario">
-            <a className="flex text-white p-4">
-              <UsersIcon className="mr-4 h-6" />
-              Usuarios
-            </a>
-          </Link>
-        </li>
-
-        <h6 className="text-gray-200 font-bold mt-8 mb-2">Configuración</h6>
-        <li
-          className={
-            router.pathname === '/perfil' ? 'bg-blue-800 p-2 rounded-md' : 'p-2'
-          }
-        >
-          <Link href="/perfil">
-            <a className="flex text-white p-4">
-              <CogIcon className="mr-4 h-6" />
-              Perfil
-            </a>
-          </Link>
-        </li>
-      </ul>
-
-      <Link href="/sesion">
-        <a className="flex absolute inset-x-0 bottom-0 mx-4 mb-4 p-4 text-white bg-red-500 rounded-md">
-          <LogoutIcon className="mr-4 h-6" />
-          Cerrar Sesión
-        </a>
-      </Link>
+    <aside className="flex h-screen w-18 flex-col items-center border-r border-gray-200 bg-white">
+      <div className="flex h-18 w-full items-center justify-center border-b border-gray-200">
+        <Image src={Logo} height={50} width={50} />
+      </div>
+      <nav className="flex flex-1 flex-col gap-y-4 pt-10">
+        <Link href="/">
+          <a
+            className={
+              (router.pathname === '/' ? 'text-secondary' : 'text-gray-300') +
+              ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
+            }
+          >
+            <HomeIcon
+              className={
+                (router.pathname === '/' ? 'drop-shadow-lg' : '') + ' h-8'
+              }
+            />
+            <ToolTip>Inicio</ToolTip>
+          </a>
+        </Link>
+        <Link href="/proveedores">
+          <a
+            className={
+              (router.pathname === '/proveedores'
+                ? 'text-secondary'
+                : 'text-gray-300') +
+              ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
+            }
+          >
+            <OfficeBuildingIcon
+              className={
+                (router.pathname === '/proveedores' ? 'drop-shadow-lg' : '') +
+                ' h-8'
+              }
+            />
+            <ToolTip>Agregar provedores</ToolTip>
+          </a>
+        </Link>
+        <Link href="/proveedores/productos">
+          <a
+            className={
+              (router.pathname === '/proveedores/productos'
+                ? 'text-secondary'
+                : 'text-gray-300') +
+              ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
+            }
+          >
+            <ArchiveIcon
+              className={
+                (router.pathname === '/proveedores/productos'
+                  ? 'drop-shadow-lg'
+                  : '') + ' h-8'
+              }
+            />
+            <ToolTip>Administrar los productos de un proveedor</ToolTip>
+          </a>
+        </Link>
+      </nav>
+      <div className="flex flex-col items-center gap-y-4 py-10">
+        <Link href="/perfil">
+          <a
+            className={
+              (router.pathname === '/perfil'
+                ? 'text-secondary'
+                : 'text-gray-300') +
+              ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
+            }
+          >
+            <CogIcon
+              className={
+                (router.pathname === '/perfil' ? 'drop-shadow-lg' : '') + ' h-8'
+              }
+            />
+            <ToolTip>Configuraciones</ToolTip>
+          </a>
+        </Link>
+      </div>
     </aside>
   );
 };

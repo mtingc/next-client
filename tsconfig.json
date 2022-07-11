@@ -3,7 +3,9 @@
     "baseUrl": "src",
     "paths": {
       "@pages/*": ["pages/*"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
+      "@service/*": ["service/*"],
+      "@assets/*": ["assets/*"]
     },
     "allowJs": true,
     "allowUnreachableCode": false,

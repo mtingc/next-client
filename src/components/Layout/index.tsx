@@ -3,6 +3,8 @@ import Head from 'next/head';
 import Navbar from '@components/Navbar';
 import Sidebar from '@components/Sidebar';
 
+import Logo from '@assets/img/logo.svg';
+
 type LayoutProps = {
   children?: React.ReactNode;
 };
@@ -18,27 +20,20 @@ const Layout = ({ children }: LayoutProps) => {
           name="description"
           content="Lagalm, soluciones integrales en inyección de plástico."
         />
-        <link rel="shortcut icon" href="favicon.ico" />
-        <link
-          rel="stylessheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-        />
+        <link rel="icon" href={Logo} type="image/x-icon" />
       </Head>
 
-      {router.pathname === '/login' || router.pathname === '/registro' ? (
-        <div className="bg-gray-800 min-h-screen flex flex-col justify-center">
-          <div>{children}</div>
-        </div>
+      {router.pathname === '/login' ? (
+        children
       ) : (
-        <>
-          <Navbar />
-          <div className="flex min-h-screen">
-            <Sidebar className="hidden sm:block relative sm:w-1/4 xl:w-1/6 max-h-screen" />
-            <main className="sm:w-3/4 xl:w-5/6 sm:min-h-screen p-5">
-              {children}
-            </main>
+        <div className="flex bg-white">
+          <Sidebar />
+          <div className="flex h-screen flex-1 flex-col">
+            <Navbar />
+            <main className="p-8">{children}</main>
           </div>
-        </>
+          {/* <aside className="hidden md:block h-screen w-[300px] shadow-lg"></aside> */}
+        </div>
       )}
     </>
   );

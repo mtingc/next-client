@@ -1,4 +1,12 @@
-query users {
+mutation UserLogin($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    status
+    message
+    token
+  }
+}
+
+query GetUsers {
   users {
     status
     message
@@ -10,26 +18,8 @@ query users {
       password
       birthday
       phone
-      registerDate
       role
       lastSession
-    }
-  }
-}
-
-query permissions {
-  permissions {
-    status
-    message
-    permissions {
-      id
-      type
-      reason
-      user
-      date
-      from
-      to
-      authorization
     }
   }
 }
