@@ -38,7 +38,8 @@ const Sidebar = () => {
         <Link href="/proveedores">
           <a
             className={
-              (router.pathname === '/proveedores'
+              (router.pathname === '/proveedores' ||
+              router.pathname === '/proveedores/[id]'
                 ? 'text-secondary'
                 : 'text-gray-300') +
               ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
@@ -46,8 +47,10 @@ const Sidebar = () => {
           >
             <OfficeBuildingIcon
               className={
-                (router.pathname === '/proveedores' ? 'drop-shadow-lg' : '') +
-                ' h-8'
+                (router.pathname === '/proveedores' ||
+                router.pathname === '/proveedores/[id]'
+                  ? 'drop-shadow-lg'
+                  : '') + ' h-8'
               }
             />
             <ToolTip>Agregar provedores</ToolTip>
@@ -56,7 +59,8 @@ const Sidebar = () => {
         <Link href="/proveedores/productos">
           <a
             className={
-              (router.pathname === '/proveedores/productos'
+              (router.pathname === '/proveedores/productos' ||
+              router.pathname === '/proveedores/productos/[id]'
                 ? 'text-secondary'
                 : 'text-gray-300') +
               ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
@@ -64,7 +68,8 @@ const Sidebar = () => {
           >
             <ArchiveIcon
               className={
-                (router.pathname === '/proveedores/productos'
+                (router.pathname === '/proveedores/productos' ||
+                router.pathname === '/proveedores/productos/[id]'
                   ? 'drop-shadow-lg'
                   : '') + ' h-8'
               }

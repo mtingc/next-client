@@ -293,15 +293,33 @@ export type PermissionInput = {
   userId: Scalars['ID'];
 };
 
-export type PurchaseProduct = {
+export type ProductTypeService = {
+  __typename?: 'ProductTypeService';
+  description?: Maybe<Scalars['String']>;
+  type?: Maybe<ProductTypeServiceEnum>;
+};
+
+export enum ProductTypeServiceEnum {
+  Carga = 'CARGA',
+  Financiero = 'FINANCIERO',
+  Tecnologico = 'TECNOLOGICO',
+  Transporte = 'TRANSPORTE',
+}
+
+export type ProductTypeServiceInput = {
+  description?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<ProductTypeServiceEnum>;
+};
+
+export type PurchaseProduct = PurchaseProductInterface & {
   __typename?: 'PurchaseProduct';
-  audited?: Maybe<Scalars['Boolean']>;
+  audited: Scalars['Boolean'];
   brand?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  details?: Maybe<Details>;
+  details: Details;
   id: Scalars['ID'];
   name: Scalars['String'];
-  supplierId?: Maybe<PurchaseSupplier>;
+  supplierId: PurchaseSupplier;
 };
 
 export type PurchaseProductInput = {
@@ -310,6 +328,17 @@ export type PurchaseProductInput = {
   description?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   supplierId: Scalars['String'];
+  typeService?: InputMaybe<ProductTypeServiceInput>;
+};
+
+export type PurchaseProductInterface = {
+  audited: Scalars['Boolean'];
+  brand?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  details: Details;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  supplierId: PurchaseSupplier;
 };
 
 export type PurchaseProductResult = Result & {
@@ -317,11 +346,23 @@ export type PurchaseProductResult = Result & {
   /** Operation message */
   message: Scalars['String'];
   /** Contact */
-  product?: Maybe<PurchaseProduct>;
+  product?: Maybe<PurchaseProductInterface>;
   /** List of contacts */
-  products?: Maybe<Array<PurchaseProduct>>;
+  products?: Maybe<Array<PurchaseProductInterface>>;
   /** Operation status */
   status: Scalars['Boolean'];
+};
+
+export type PurchaseProductService = PurchaseProductInterface & {
+  __typename?: 'PurchaseProductService';
+  audited: Scalars['Boolean'];
+  brand?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  details: Details;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  supplierId: PurchaseSupplier;
+  typeService?: Maybe<ProductTypeService>;
 };
 
 export type PurchaseRequisition = {
@@ -364,6 +405,7 @@ export type PurchaseSupplier = {
   logo?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   passed?: Maybe<Scalars['Boolean']>;
+  productId?: Maybe<Array<Maybe<PurchaseProductInterface>>>;
   taxes?: Maybe<SupplierTaxes>;
 };
 
@@ -757,6 +799,86 @@ export enum WorkPosition {
   Ventas = 'VENTAS',
 }
 
+export type PurchaseSupplierFragmentFragment = {
+  __typename?: 'PurchaseSupplier';
+  id: string;
+  name: string;
+  logo?: string | null;
+  deliveryTime?: number | null;
+  passed?: boolean | null;
+  classification?: SupplierClassificationEnum | null;
+  infoContact?: {
+    __typename?: 'SupplierContact';
+    email?: string | null;
+    phone?: string | null;
+    web?: string | null;
+    personalizedContact?: {
+      __typename?: 'ContactPersonalized';
+      name?: string | null;
+      email?: string | null;
+      phone?: string | null;
+    } | null;
+  } | null;
+  address?: {
+    __typename?: 'SupplierAddress';
+    street?: string | null;
+    colony?: string | null;
+    municipality?: string | null;
+    state?: string | null;
+    country?: string | null;
+    zipCode?: string | null;
+    number?: {
+      __typename?: 'AddressNumber';
+      interior?: string | null;
+      exterior?: string | null;
+    } | null;
+    streets?: {
+      __typename?: 'AddressStreets';
+      a?: string | null;
+      b?: string | null;
+    } | null;
+  } | null;
+  taxes?: {
+    __typename?: 'SupplierTaxes';
+    type?: SupplierTypeTaxesEnum | null;
+    rfc?: string | null;
+  } | null;
+  productId?: Array<
+    | {
+        __typename?: 'PurchaseProduct';
+        id: string;
+        name: string;
+        description?: string | null;
+        brand?: string | null;
+        audited: boolean;
+        supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+        details: { __typename?: 'Details'; status?: boolean | null };
+      }
+    | {
+        __typename?: 'PurchaseProductService';
+        id: string;
+        name: string;
+        description?: string | null;
+        brand?: string | null;
+        audited: boolean;
+        typeService?: {
+          __typename?: 'ProductTypeService';
+          type?: ProductTypeServiceEnum | null;
+          description?: string | null;
+        } | null;
+        supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+        details: { __typename?: 'Details'; status?: boolean | null };
+      }
+    | null
+  > | null;
+  details?: {
+    __typename?: 'Details';
+    status?: boolean | null;
+    creationDate?: string | null;
+    creatorUserId?: { __typename?: 'User'; name: string } | null;
+  } | null;
+};
+
 export type UserLoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -795,13 +917,696 @@ export type GetUsersQuery = {
   } | null;
 };
 
+export type GetPurchaseSuppliersQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetPurchaseSuppliersQuery = {
+  __typename?: 'Query';
+  suppliers?: {
+    __typename?: 'PurchaseSupplierResult';
+    status: boolean;
+    message: string;
+    suppliers?: Array<{
+      __typename?: 'PurchaseSupplier';
+      id: string;
+      name: string;
+      logo?: string | null;
+      deliveryTime?: number | null;
+      passed?: boolean | null;
+      classification?: SupplierClassificationEnum | null;
+      infoContact?: {
+        __typename?: 'SupplierContact';
+        email?: string | null;
+        phone?: string | null;
+        web?: string | null;
+        personalizedContact?: {
+          __typename?: 'ContactPersonalized';
+          name?: string | null;
+          email?: string | null;
+          phone?: string | null;
+        } | null;
+      } | null;
+      address?: {
+        __typename?: 'SupplierAddress';
+        street?: string | null;
+        colony?: string | null;
+        municipality?: string | null;
+        state?: string | null;
+        country?: string | null;
+        zipCode?: string | null;
+        number?: {
+          __typename?: 'AddressNumber';
+          interior?: string | null;
+          exterior?: string | null;
+        } | null;
+        streets?: {
+          __typename?: 'AddressStreets';
+          a?: string | null;
+          b?: string | null;
+        } | null;
+      } | null;
+      taxes?: {
+        __typename?: 'SupplierTaxes';
+        type?: SupplierTypeTaxesEnum | null;
+        rfc?: string | null;
+      } | null;
+      productId?: Array<
+        | {
+            __typename?: 'PurchaseProduct';
+            id: string;
+            name: string;
+            description?: string | null;
+            brand?: string | null;
+            audited: boolean;
+            supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+            details: { __typename?: 'Details'; status?: boolean | null };
+          }
+        | {
+            __typename?: 'PurchaseProductService';
+            id: string;
+            name: string;
+            description?: string | null;
+            brand?: string | null;
+            audited: boolean;
+            typeService?: {
+              __typename?: 'ProductTypeService';
+              type?: ProductTypeServiceEnum | null;
+              description?: string | null;
+            } | null;
+            supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+            details: { __typename?: 'Details'; status?: boolean | null };
+          }
+        | null
+      > | null;
+      details?: {
+        __typename?: 'Details';
+        status?: boolean | null;
+        creationDate?: string | null;
+        creatorUserId?: { __typename?: 'User'; name: string } | null;
+      } | null;
+    }> | null;
+  } | null;
+};
+
+export type GetPurchaseProductsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetPurchaseProductsQuery = {
+  __typename?: 'Query';
+  products?: {
+    __typename?: 'PurchaseProductResult';
+    status: boolean;
+    message: string;
+    products?: Array<
+      | {
+          __typename?: 'PurchaseProduct';
+          id: string;
+          name: string;
+          description?: string | null;
+          brand?: string | null;
+          audited: boolean;
+          typeService?: ProductTypeService;
+          supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+          details: { __typename?: 'Details'; status?: boolean | null };
+        }
+      | {
+          __typename?: 'PurchaseProductService';
+          id: string;
+          name: string;
+          description?: string | null;
+          brand?: string | null;
+          audited: boolean;
+          typeService?: {
+            __typename?: 'ProductTypeService';
+            type?: ProductTypeServiceEnum | null;
+            description?: string | null;
+          } | null;
+          supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+          details: { __typename?: 'Details'; status?: boolean | null };
+        }
+    > | null;
+  } | null;
+};
+
+export type GetSupplierQueryVariables = Exact<{
+  supplierId: Scalars['ID'];
+}>;
+
+export type GetSupplierQuery = {
+  __typename?: 'Query';
+  supplier?: {
+    __typename?: 'PurchaseSupplierResult';
+    status: boolean;
+    message: string;
+    supplier?: {
+      __typename?: 'PurchaseSupplier';
+      id: string;
+      name: string;
+      logo?: string | null;
+      deliveryTime?: number | null;
+      passed?: boolean | null;
+      classification?: SupplierClassificationEnum | null;
+      infoContact?: {
+        __typename?: 'SupplierContact';
+        email?: string | null;
+        phone?: string | null;
+        web?: string | null;
+        personalizedContact?: {
+          __typename?: 'ContactPersonalized';
+          name?: string | null;
+          email?: string | null;
+          phone?: string | null;
+        } | null;
+      } | null;
+      address?: {
+        __typename?: 'SupplierAddress';
+        street?: string | null;
+        colony?: string | null;
+        municipality?: string | null;
+        state?: string | null;
+        country?: string | null;
+        zipCode?: string | null;
+        number?: {
+          __typename?: 'AddressNumber';
+          interior?: string | null;
+          exterior?: string | null;
+        } | null;
+        streets?: {
+          __typename?: 'AddressStreets';
+          a?: string | null;
+          b?: string | null;
+        } | null;
+      } | null;
+      taxes?: {
+        __typename?: 'SupplierTaxes';
+        type?: SupplierTypeTaxesEnum | null;
+        rfc?: string | null;
+      } | null;
+      productId?: Array<
+        | {
+            __typename?: 'PurchaseProduct';
+            id: string;
+            name: string;
+            description?: string | null;
+            brand?: string | null;
+            audited: boolean;
+            supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+            typeService: ProductTypeService;
+            details: { __typename?: 'Details'; status?: boolean | null };
+          }
+        | {
+            __typename?: 'PurchaseProductService';
+            id: string;
+            name: string;
+            description?: string | null;
+            brand?: string | null;
+            audited: boolean;
+            typeService?: {
+              __typename?: 'ProductTypeService';
+              type?: ProductTypeServiceEnum | null;
+              description?: string | null;
+            } | null;
+            supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+            details: { __typename?: 'Details'; status?: boolean | null };
+          }
+        | null
+      > | null;
+      details?: {
+        __typename?: 'Details';
+        status?: boolean | null;
+        creationDate?: string | null;
+        creatorUserId?: { __typename?: 'User'; name: string } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type GetProductQueryVariables = Exact<{
+  productId: Scalars['ID'];
+}>;
+
+export type GetProductQuery = {
+  __typename?: 'Query';
+  product?: {
+    __typename?: 'PurchaseProductResult';
+    status: boolean;
+    message: string;
+    product?:
+      | {
+          __typename?: 'PurchaseProduct';
+          id: string;
+          name: string;
+          description?: string | null;
+          brand?: string | null;
+          audited: boolean;
+          supplierId: {
+            __typename?: 'PurchaseSupplier';
+            id: string;
+            name: string;
+            logo?: string | null;
+            deliveryTime?: number | null;
+            passed?: boolean | null;
+            classification?: SupplierClassificationEnum | null;
+            infoContact?: {
+              __typename?: 'SupplierContact';
+              email?: string | null;
+              phone?: string | null;
+              web?: string | null;
+              personalizedContact?: {
+                __typename?: 'ContactPersonalized';
+                name?: string | null;
+                email?: string | null;
+                phone?: string | null;
+              } | null;
+            } | null;
+            address?: {
+              __typename?: 'SupplierAddress';
+              street?: string | null;
+              colony?: string | null;
+              municipality?: string | null;
+              state?: string | null;
+              country?: string | null;
+              zipCode?: string | null;
+              number?: {
+                __typename?: 'AddressNumber';
+                interior?: string | null;
+                exterior?: string | null;
+              } | null;
+              streets?: {
+                __typename?: 'AddressStreets';
+                a?: string | null;
+                b?: string | null;
+              } | null;
+            } | null;
+            taxes?: {
+              __typename?: 'SupplierTaxes';
+              type?: SupplierTypeTaxesEnum | null;
+              rfc?: string | null;
+            } | null;
+            productId?: Array<
+              | {
+                  __typename?: 'PurchaseProduct';
+                  id: string;
+                  name: string;
+                  description?: string | null;
+                  brand?: string | null;
+                  audited: boolean;
+                  supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+                  details: { __typename?: 'Details'; status?: boolean | null };
+                }
+              | {
+                  __typename?: 'PurchaseProductService';
+                  id: string;
+                  name: string;
+                  description?: string | null;
+                  brand?: string | null;
+                  audited: boolean;
+                  typeService?: {
+                    __typename?: 'ProductTypeService';
+                    type?: ProductTypeServiceEnum | null;
+                    description?: string | null;
+                  } | null;
+                  supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+                  details: { __typename?: 'Details'; status?: boolean | null };
+                }
+              | null
+            > | null;
+            details?: {
+              __typename?: 'Details';
+              status?: boolean | null;
+              creationDate?: string | null;
+              creatorUserId?: { __typename?: 'User'; name: string } | null;
+            } | null;
+          };
+          details: {
+            __typename?: 'Details';
+            status?: boolean | null;
+            creationDate?: string | null;
+            creatorUserId?: { __typename?: 'User'; name: string } | null;
+          };
+        }
+      | {
+          __typename?: 'PurchaseProductService';
+          id: string;
+          name: string;
+          description?: string | null;
+          brand?: string | null;
+          audited: boolean;
+          typeService?: {
+            __typename?: 'ProductTypeService';
+            type?: ProductTypeServiceEnum | null;
+            description?: string | null;
+          } | null;
+          supplierId: {
+            __typename?: 'PurchaseSupplier';
+            id: string;
+            name: string;
+            logo?: string | null;
+            deliveryTime?: number | null;
+            passed?: boolean | null;
+            classification?: SupplierClassificationEnum | null;
+            infoContact?: {
+              __typename?: 'SupplierContact';
+              email?: string | null;
+              phone?: string | null;
+              web?: string | null;
+              personalizedContact?: {
+                __typename?: 'ContactPersonalized';
+                name?: string | null;
+                email?: string | null;
+                phone?: string | null;
+              } | null;
+            } | null;
+            address?: {
+              __typename?: 'SupplierAddress';
+              street?: string | null;
+              colony?: string | null;
+              municipality?: string | null;
+              state?: string | null;
+              country?: string | null;
+              zipCode?: string | null;
+              number?: {
+                __typename?: 'AddressNumber';
+                interior?: string | null;
+                exterior?: string | null;
+              } | null;
+              streets?: {
+                __typename?: 'AddressStreets';
+                a?: string | null;
+                b?: string | null;
+              } | null;
+            } | null;
+            taxes?: {
+              __typename?: 'SupplierTaxes';
+              type?: SupplierTypeTaxesEnum | null;
+              rfc?: string | null;
+            } | null;
+            productId?: Array<
+              | {
+                  __typename?: 'PurchaseProduct';
+                  id: string;
+                  name: string;
+                  description?: string | null;
+                  brand?: string | null;
+                  audited: boolean;
+                  supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+                  details: { __typename?: 'Details'; status?: boolean | null };
+                }
+              | {
+                  __typename?: 'PurchaseProductService';
+                  id: string;
+                  name: string;
+                  description?: string | null;
+                  brand?: string | null;
+                  audited: boolean;
+                  typeService?: {
+                    __typename?: 'ProductTypeService';
+                    type?: ProductTypeServiceEnum | null;
+                    description?: string | null;
+                  } | null;
+                  supplierId: { __typename?: 'PurchaseSupplier'; name: string };
+                  details: { __typename?: 'Details'; status?: boolean | null };
+                }
+              | null
+            > | null;
+            details?: {
+              __typename?: 'Details';
+              status?: boolean | null;
+              creationDate?: string | null;
+              creatorUserId?: { __typename?: 'User'; name: string } | null;
+            } | null;
+          };
+          details: {
+            __typename?: 'Details';
+            status?: boolean | null;
+            creationDate?: string | null;
+            creatorUserId?: { __typename?: 'User'; name: string } | null;
+          };
+        }
+      | null;
+  } | null;
+};
+
+export const PurchaseSupplierFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PurchaseSupplierFragment' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PurchaseSupplier' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'infoContact' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'web' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'personalizedContact' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'address' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'street' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'number' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'interior' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'exterior' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'colony' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'municipality' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'zipCode' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'streets' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'a' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'b' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rfc' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'deliveryTime' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'passed' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'classification' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'productId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: { kind: 'Name', value: 'PurchaseProduct' },
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'brand' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'audited' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'supplierId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'details' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'status' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: { kind: 'Name', value: 'PurchaseProductService' },
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'typeService' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'type' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'brand' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'audited' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'supplierId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'details' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'status' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'details' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creatorUserId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creationDate' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PurchaseSupplierFragmentFragment, unknown>;
 export const UserLoginDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'UserLogin' },
+      name: { kind: 'Name', value: 'userLogin' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -876,7 +1681,7 @@ export const GetUsersDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'GetUsers' },
+      name: { kind: 'Name', value: 'getUsers' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -926,3 +1731,542 @@ export const GetUsersDocument = {
     },
   ],
 } as unknown as DocumentNode<GetUsersQuery, GetUsersQueryVariables>;
+export const GetPurchaseSuppliersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'getPurchaseSuppliers' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'suppliers' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'suppliers' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PurchaseSupplierFragment',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...PurchaseSupplierFragmentFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  GetPurchaseSuppliersQuery,
+  GetPurchaseSuppliersQueryVariables
+>;
+export const GetPurchaseProductsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'getPurchaseProducts' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'products' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'products' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'PurchaseProduct' },
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'brand' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'audited' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'supplierId' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'details' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'status' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'PurchaseProductService',
+                          },
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'typeService' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'type' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'description',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'brand' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'audited' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'supplierId' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'details' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'status' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetPurchaseProductsQuery,
+  GetPurchaseProductsQueryVariables
+>;
+export const GetSupplierDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'getSupplier' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'supplierId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'supplier' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'supplierId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'supplier' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PurchaseSupplierFragment',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...PurchaseSupplierFragmentFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<GetSupplierQuery, GetSupplierQueryVariables>;
+export const GetProductDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'getProduct' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'productId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'product' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'productId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'product' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'PurchaseProduct' },
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'brand' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'audited' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'supplierId' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'FragmentSpread',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'PurchaseSupplierFragment',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'details' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'status' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'creatorUserId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'creationDate',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'PurchaseProductService',
+                          },
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'typeService' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'type' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'description',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'brand' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'audited' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'supplierId' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'FragmentSpread',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'PurchaseSupplierFragment',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'details' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'status' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'creatorUserId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'creationDate',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...PurchaseSupplierFragmentFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<GetProductQuery, GetProductQueryVariables>;
