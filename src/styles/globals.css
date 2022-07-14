@@ -27,32 +27,3 @@
     }
   }
 }
-
-@layer components {
-  /* BUTTON */
-  .btn {
-    @apply flex flex-grow items-center justify-center h-[42px] py-2 px-4 rounded-md shadow-xl font-medium text-white bg-tertiary transition-all duration-300;
-
-    /* size */
-    &--md {
-      @apply h-[50px];
-    }
-    &--lg {
-      @apply h-[58px];
-    }
-
-    /* Hover */
-    &--hover {
-      @apply hover:bg-accent-hover;
-    }
-
-    /* Outline */
-    &--outline {
-      @apply text-tertiary bg-white border border-tertiary;
-
-      &--hover {
-        @apply text-tertiary bg-white border border-tertiary hover:text-white hover:bg-tertiary hover:border-white;
-      }
-    }
-  }
-}

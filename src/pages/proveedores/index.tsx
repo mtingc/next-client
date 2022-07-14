@@ -1,15 +1,61 @@
-import Link from 'next/link';
+import { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { GetPurchaseSuppliersDocument } from '@service/graphql';
+import {
+  GetPurchaseSuppliersDocument,
+  PurchaseSupplier,
+} from '@service/graphql';
+
+import CardUI from '@ui/Card';
+import TableUI from '@ui/Table';
 
 const Proveedores = () => {
   const { data } = useQuery(GetPurchaseSuppliersDocument);
   const suppliers = data?.suppliers?.suppliers;
+  const [columnsState, setColumnsState] = useState({}); // Estado de la tabla, columns HIDE
+
+  const columns = [
+    {
+      field: 'name',
+      name: 'Nombre',
+      hide: true,
+    },
+    {
+      field: 'taxes',
+      name: 'RFC',
+      hide: true,
+    },
+    {
+      field: 'passed',
+      name: 'Aprovado',
+      hide: true,
+    },
+    {
+      field: 'date',
+      name: 'Fecha de registro',
+      hide: false,
+    },
+  ];
+  const rows: object[] = [
+    {
+      id: '1',
+      name: 'Empresa 1',
+    },
+  ];
   return (
     <>
       <h1 className="text-5xl text-gray-800 font-bold">Proveedores</h1>
 
-      <div className="overflow-x-auto shadow-md sm:rounded-lg mt-10">
+      <CardUI
+        title="Proveedores"
+        description="Registro de proveedores"
+        addButton="Agregar proveedor"
+        linkButton="/proveedors"
+        inputSearch="proveedores "
+      >
+        <TableUI columns={columns} rows={rows} />
+      </CardUI>
+
+      {/* <div className="overflow-x-auto shadow-md sm:rounded-lg mt-10">
         <table className="w-full text-sm text-center text-gray-500">
           <thead className="text-xs uppercase bg-gray-700 text-gray-400">
             <tr>
@@ -92,7 +138,7 @@ const Proveedores = () => {
             }
           )}
         </table>
-      </div>
+      </div> */}
     </>
   );
 };

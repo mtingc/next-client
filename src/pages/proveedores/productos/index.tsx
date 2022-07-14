@@ -3,7 +3,9 @@ import {
   GetPurchaseProductsDocument,
   ProductTypeService,
 } from '@service/graphql';
-import Link from 'next/link';
+
+import CardUI from '@ui/Card';
+import TableUI from '@ui/Table';
 
 const Productos = () => {
   const { data } = useQuery(GetPurchaseProductsDocument);
@@ -12,7 +14,16 @@ const Productos = () => {
     <>
       <h1 className="text-5xl text-gray-800 font-bold">Productos</h1>
 
-      <div className="overflow-x-auto shadow-md sm:rounded-lg mt-10">
+      <CardUI
+        title="Productos"
+        description="Registro de productos"
+        addButton="Agregar un producto"
+        inputSearch="productos "
+      >
+        {/* <TableUI data={suppliers} /> */}
+      </CardUI>
+
+      {/* <div className="overflow-x-auto shadow-md sm:rounded-lg mt-10">
         <table className="w-full text-sm text-center text-gray-500">
           <thead className="text-xs uppercase bg-gray-700 text-gray-400">
             <tr>
@@ -88,7 +99,7 @@ const Productos = () => {
             }
           )}
         </table>
-      </div>
+      </div> */}
     </>
   );
 };

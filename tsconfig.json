@@ -5,7 +5,9 @@
       "@pages/*": ["pages/*"],
       "@components/*": ["components/*"],
       "@service/*": ["service/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@ui/*": ["./components/UI/*"],
+      "@interfaces/*": ["./interfaces/*"]
     },
     "allowJs": true,
     "allowUnreachableCode": false,
