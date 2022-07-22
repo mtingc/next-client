@@ -1,0 +1,12 @@
+fragment RrhhVacantFragment on RrhhVacant {
+  id
+  jobId {
+    ...RrhhJobFragment
+  }
+  title
+  description
+  available
+  details {
+    ...DetailsFragment
+  }
+}

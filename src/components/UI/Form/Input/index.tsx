@@ -1,4 +1,4 @@
-const FormInputUI = () => {
+const FormInputUI = ({ inputOf }: { inputOf: string }) => {
   return <></>;
 };
 

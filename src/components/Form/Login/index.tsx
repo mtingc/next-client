@@ -8,6 +8,7 @@ import { UserLoginDocument } from '@service/graphql';
 import { toast } from '@components/Toast';
 import { TYPE_ICON } from '@components/Toast/TYPE_ICON';
 import Link from 'next/link';
+import ButtonUI from '@components/UI/Button';
 
 const LoginForm = () => {
   const [login] = useMutation(UserLoginDocument);
@@ -99,17 +100,13 @@ const LoginForm = () => {
         </Link>
       </div>
 
-      <button
-        type="submit"
-        className={
-          'btn btn--md rounded md:btn--lg ' +
-          (formik.isValid && formik.dirty
-            ? 'opacity-100 cursor-pointer btn--hover'
-            : 'opacity-40 cursor-default bg-slate-600')
+      <ButtonUI
+        text={
+          formik.isValid && formik.dirty ? 'Iniciar sesión' : 'Llena los campos'
         }
-      >
-        {formik.isValid && formik.dirty ? 'Iniciar sesión' : 'Llena los campos'}
-      </button>
+        linkButton="/"
+        sizes="Medium"
+      />
     </form>
   );
 };

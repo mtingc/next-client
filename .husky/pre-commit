@@ -1,14 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# - Check tsconfig standards
-npm run check-types ||
-{
-    echo 'Failed Types check, ** npm run check-types **
-            Make the required changes listed above and try to commit again.'
-    false;
-}
-
 # Check Prettier standards
 npm run check-format ||
 {

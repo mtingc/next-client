@@ -30,7 +30,7 @@ const Layout = ({ children }: LayoutProps) => {
           <Sidebar />
           <div className="flex h-screen flex-1 flex-col">
             <Navbar />
-            <main className="p-8">{children}</main>
+            <main className="p-8 overflow-scroll h-full">{children}</main>
           </div>
           {/* <aside className="hidden md:block h-screen w-[300px] shadow-lg"></aside> */}
         </div>
