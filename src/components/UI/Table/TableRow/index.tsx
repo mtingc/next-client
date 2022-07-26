@@ -1,18 +1,18 @@
-const TableRow = ({ row }: { row?: string[] }) => {
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+const TableRow = ({ item }: { item: string[] }) => {
+  const { pathname } = useRouter();
   return (
     <tr className="text-gray-500 hover:bg-primary/10 transition-all duration-300">
-      <td className="border-dashed border-t border-primary/60 px-3">
-        <label className="text-teal-500 inline-flex justify-between items-center hover:bg-primary/50 px-2 py-2 rounded-lg cursor-pointer">
-          <input
-            type="checkbox"
-            className="form-checkbox rowCheckbox focus:outline-none focus:shadow-outline"
-          />
-        </label>
-      </td>
-      {row?.map((value, index) => {
+      {item.map((rowData, i) => {
         return (
-          <td key={index} className="border-dashed border-t border-primary/60">
-            <span className="px-6 py-3 flex items-center">{value}</span>
+          <td key={i} className="border-dashed border-t border-primary/60">
+            <Link href={`${pathname}/${item[0]}`}>
+              <a className="cursor-pointer">
+                <span className="px-6 py-3 flex items-center">{rowData}</span>
+              </a>
+            </Link>
           </td>
         );
       })}
