@@ -9,6 +9,17 @@ fragment RrhhPermissionFragment on RrhhPermission {
   to
   authorization
   details {
-    ...DetailsFragment
+    status
+    creatorUserId
+    creatorUser {
+      name
+      email
+    }
+    creationDate
+    modifierUserId {
+      name
+      email
+    }
+    lastModification
   }
 }

@@ -8,6 +8,10 @@ import {
   OfficeBuildingIcon,
   ArchiveIcon,
   CogIcon,
+  ChatIcon,
+  TicketIcon,
+  BriefcaseIcon,
+  UserGroupIcon,
 } from '@heroicons/react/solid';
 import ToolTip from './ToolTip';
 
@@ -75,6 +79,90 @@ const Sidebar = () => {
               }
             />
             <ToolTip>Administrar los productos de un proveedor</ToolTip>
+          </a>
+        </Link>
+        <Link href="/rrhh/contactos">
+          <a
+            className={
+              (router.pathname === '/rrhh/contactos' ||
+              router.pathname === '/rrhh/contactos/[id]'
+                ? 'text-secondary'
+                : 'text-gray-300') +
+              ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
+            }
+          >
+            <ChatIcon
+              className={
+                (router.pathname === '/rrhh/contactos' ||
+                router.pathname === '/rrhh/contactos/[id]'
+                  ? 'drop-shadow-lg'
+                  : '') + ' h-8'
+              }
+            />
+            <ToolTip>Administrar los contactos de la web</ToolTip>
+          </a>
+        </Link>
+        <Link href="/rrhh/permisos">
+          <a
+            className={
+              (router.pathname === '/rrhh/permisos' ||
+              router.pathname === '/rrhh/permisos/[id]'
+                ? 'text-secondary'
+                : 'text-gray-300') +
+              ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
+            }
+          >
+            <TicketIcon
+              className={
+                (router.pathname === '/rrhh/permisos' ||
+                router.pathname === '/rrhh/permisos/[id]'
+                  ? 'drop-shadow-lg'
+                  : '') + ' h-8'
+              }
+            />
+            <ToolTip>Administrar los permisos de los usuarios</ToolTip>
+          </a>
+        </Link>
+        <Link href="/rrhh/trabajos">
+          <a
+            className={
+              (router.pathname === '/rrhh/trabajos' ||
+              router.pathname === '/rrhh/trabajos/[id]'
+                ? 'text-secondary'
+                : 'text-gray-300') +
+              ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
+            }
+          >
+            <BriefcaseIcon
+              className={
+                (router.pathname === '/rrhh/trabajos' ||
+                router.pathname === '/rrhh/trabajos/[id]'
+                  ? 'drop-shadow-lg'
+                  : '') + ' h-8'
+              }
+            />
+            <ToolTip>Administrar los trabajos para una vacante</ToolTip>
+          </a>
+        </Link>
+        <Link href="/rrhh/vacantes">
+          <a
+            className={
+              (router.pathname === '/rrhh/vacantes' ||
+              router.pathname === '/rrhh/vacantes/[id]'
+                ? 'text-secondary'
+                : 'text-gray-300') +
+              ' group relative bg-gray-50 hover:bg-gray-200 rounded-xl p-2 transition-all duration-500'
+            }
+          >
+            <UserGroupIcon
+              className={
+                (router.pathname === '/rrhh/vacantes' ||
+                router.pathname === '/rrhh/vacantes/[id]'
+                  ? 'drop-shadow-lg'
+                  : '') + ' h-8'
+              }
+            />
+            <ToolTip>Administrar las vacantes</ToolTip>
           </a>
         </Link>
       </nav>

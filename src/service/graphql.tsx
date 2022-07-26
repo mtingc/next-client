@@ -3922,9 +3922,40 @@ export const RrhhJobFragmentFragmentDoc = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
                 {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DetailsFragment' },
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creatorUserId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creatorUser' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creationDate' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'modifierUserId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastModification' },
                 },
               ],
             },
@@ -3932,7 +3963,6 @@ export const RrhhJobFragmentFragmentDoc = {
         ],
       },
     },
-    ...DetailsFragmentFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<RrhhJobFragmentFragment, unknown>;
 export const RrhhVacantFragmentFragmentDoc = {
@@ -3971,9 +4001,40 @@ export const RrhhVacantFragmentFragmentDoc = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
                 {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DetailsFragment' },
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creatorUserId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creatorUser' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creationDate' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'modifierUserId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastModification' },
                 },
               ],
             },
@@ -3982,7 +4043,6 @@ export const RrhhVacantFragmentFragmentDoc = {
       },
     },
     ...RrhhJobFragmentFragmentDoc.definitions,
-    ...DetailsFragmentFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<RrhhVacantFragmentFragment, unknown>;
 export const RrhhContactRrhhFragmentFragmentDoc = {
@@ -4089,9 +4149,40 @@ export const RrhhPermissionFragmentFragmentDoc = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
                 {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DetailsFragment' },
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creatorUserId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creatorUser' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creationDate' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'modifierUserId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastModification' },
                 },
               ],
             },
@@ -4100,7 +4191,6 @@ export const RrhhPermissionFragmentFragmentDoc = {
       },
     },
     ...UserFragmentFragmentDoc.definitions,
-    ...DetailsFragmentFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<RrhhPermissionFragmentFragment, unknown>;
 export const NewPurchaseProductDocument = {
